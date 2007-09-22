@@ -53,14 +53,14 @@ after 'install_accessors' => sub {
     $class->add_attribute(
         '__position', => ( is => 'rw', isa => 'Int', default => 0 ) );
 
-    my %revere_methods = reverse %{ $attr->provides };
+    my %reverse_methods = reverse %{ $attr->provides };
 
     foreach my $method ( keys %{ $attr->provides } ) {
         $class->add_method(
             $method => sub {
                 my ($self) = @_;
                 $attr->methods->{ $attr->provides->{$method} }
-                  ->( $self, $collection, \%revere_methods );
+                  ->( $self, $collection, \%reverse_methods );
             },
         );
 
