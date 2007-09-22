@@ -17,10 +17,10 @@ has iter => (
     metaclass    => 'MooseX::Iterator',
     iterate_over => 'numbers',
     provides     => {
-        my_next     => 'next',
-        my_has_next => 'has_next',
-        my_peek     => 'peek',
-        my_contents => 'contents',
+        next     => 'my_next',
+        has_next => 'my_has_next',
+        peek     => 'my_peek',
+        contents => 'my_contents',
     },
 );
 

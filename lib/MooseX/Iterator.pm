@@ -6,15 +6,15 @@ our $AUTHORITY = 'cpan:RLB';
 
 extends 'Moose::Meta::Attribute';
 
-has 'provides'     => ( is => 'ro', isa => 'HashRef', default => sub { {} } );
-has 'iterate_over' => ( is => 'ro', isa => 'Str',     default => ''         );
+has provides => ( is => 'ro', isa => 'HashRef', default => sub { {} } );
+has iterate_over => ( is => 'ro', isa => 'Str', default => '' );
 
-has 'methods' => (
+has methods => (
     is      => 'ro',
     isa     => 'HashRef',
     default => sub {
         {
-            next => sub {
+              next => sub {
                 my ( $self, $collection ) = @_;
                 my $position = $self->__position;
                 my $next     = $self->$collection->[ $position++ ];
@@ -41,7 +41,7 @@ has 'methods' => (
                 my ( $self, $collection ) = @_;
                 return $self->$collection;
               },
-        };
+        },;
     },
 );
 
@@ -51,16 +51,15 @@ after 'install_accessors' => sub {
     my $collection = $attr->iterate_over;
 
     $class->add_attribute(
-        '__position', => ( is => 'rw', isa => 'Int', default => 0 ) );
+        '__position' => ( is => 'rw', isa => 'Int', default => 0 ) );
 
-    my %reverse_methods = reverse %{ $attr->provides };
+    my %methods = %{ $attr->provides };
 
     foreach my $method ( keys %{ $attr->provides } ) {
         $class->add_method(
-            $method => sub {
+            $attr->provides->{$method} => sub {
                 my ($self) = @_;
-                $attr->methods->{ $attr->provides->{$method} }
-                  ->( $self, $collection, \%reverse_methods );
+                $attr->methods->{$method}->( $self, $collection, \%methods );
             },
         );
 
