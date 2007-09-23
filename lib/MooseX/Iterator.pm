@@ -15,25 +15,24 @@ has methods => (
     default => sub {
         {
               next => sub {
-                my ( $self, $collection, $collection_iter_name ) = @_;
-                my $position = $self->$collection_iter_name;
+                my ( $self, $collection, $collection_position_name ) = @_;
+                my $position = $self->$collection_position_name;
                 my $next     = $self->$collection->[ $position++ ];
-                $self->$collection_iter_name($position);
+                $self->$collection_position_name($position);
                 return $next;
               },
               has_next => sub {
-                my ( $self, $collection, $collection_iter_name ) = @_;
-                my $position = $self->$collection_iter_name;
+                my ( $self, $collection, $collection_position_name ) = @_;
+                my $position = $self->$collection_position_name;
                 return exists $self->$collection->[ $position++ ];
               },
               peek => sub {
-                my ( $self, $collection, $collection_iter_name, $method_names )
-                  = @_;
+                my ( $self, $collection, $collection_position_name, $method_names ) = @_;
 
                 my $has_next = $method_names->{'has_next'};
 
                 if ( $self->$has_next ) {
-                    my $position = $self->$collection_iter_name;
+                    my $position = $self->$collection_position_name;
                     return $self->$collection->[ ++$position ];
                 }
                 return;
@@ -50,10 +49,10 @@ after 'install_accessors' => sub {
     my ($attr)               = @_;
     my $class                = $attr->associated_class;
     my $collection           = $attr->iterate_over;
-    my $collection_iter_name = '__' . $collection . '_iter';
+    my $collection_position_name = '__' . $collection . '_position';
 
     $class->add_attribute(
-        $collection_iter_name => ( is => 'rw', isa => 'Int', default => 0 ) );
+        $collection_position_name => ( is => 'rw', isa => 'Int', default => 0 ) );
 
     my %methods = %{ $attr->provides };
 
@@ -61,7 +60,7 @@ after 'install_accessors' => sub {
         $class->add_method(
             $attr->provides->{$method} => sub {
                 my ($self) = @_;
-                $attr->methods->{$method}->( $self, $collection, $collection_iter_name, \%methods );
+                $attr->methods->{$method}->( $self, $collection, $collection_position_name, \%methods );
             },
         );
 

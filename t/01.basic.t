@@ -51,4 +51,5 @@ while ( $test->my_has_next ) {
 }
 
 is_deeply $test->my_contents, [ 5, 6, 7, 8, 9, 10 ], 'Contents';
-can_ok $test, '__numbers_iter';
+
+can_ok $test, '__numbers_position';
