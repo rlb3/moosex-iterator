@@ -6,7 +6,7 @@ our $AUTHORITY = 'cpan:RLB';
 
 extends 'Moose::Meta::Attribute';
 
-has provides => ( is => 'ro', isa => 'HashRef', default => sub { {} } );
+has provides     => ( is => 'ro', isa => 'HashRef', default => sub { {} } );
 has iterate_over => ( is => 'ro', isa => 'Str', default => '' );
 
 has methods => (
@@ -15,24 +15,25 @@ has methods => (
     default => sub {
         {
               next => sub {
-                my ( $self, $collection ) = @_;
-                my $position = $self->__position;
+                my ( $self, $collection, $collection_iter_name ) = @_;
+                my $position = $self->$collection_iter_name;
                 my $next     = $self->$collection->[ $position++ ];
-                $self->__position($position);
+                $self->$collection_iter_name($position);
                 return $next;
               },
               has_next => sub {
-                my ( $self, $collection ) = @_;
-                my $position = $self->__position;
+                my ( $self, $collection, $collection_iter_name ) = @_;
+                my $position = $self->$collection_iter_name;
                 return exists $self->$collection->[ $position++ ];
               },
               peek => sub {
-                my ( $self, $collection, $method_names ) = @_;
+                my ( $self, $collection, $collection_iter_name, $method_names )
+                  = @_;
 
                 my $has_next = $method_names->{'has_next'};
 
                 if ( $self->$has_next ) {
-                    my $position = $self->__position;
+                    my $position = $self->$collection_iter_name;
                     return $self->$collection->[ ++$position ];
                 }
                 return;
@@ -41,17 +42,18 @@ has methods => (
                 my ( $self, $collection ) = @_;
                 return $self->$collection;
               },
-        },;
+        },
     },
 );
 
 after 'install_accessors' => sub {
-    my ($attr)     = @_;
-    my $class      = $attr->associated_class;
-    my $collection = $attr->iterate_over;
+    my ($attr)               = @_;
+    my $class                = $attr->associated_class;
+    my $collection           = $attr->iterate_over;
+    my $collection_iter_name = '__' . $collection . '_iter';
 
     $class->add_attribute(
-        '__position' => ( is => 'rw', isa => 'Int', default => 0 ) );
+        $collection_iter_name => ( is => 'rw', isa => 'Int', default => 0 ) );
 
     my %methods = %{ $attr->provides };
 
@@ -59,7 +61,7 @@ after 'install_accessors' => sub {
         $class->add_method(
             $attr->provides->{$method} => sub {
                 my ($self) = @_;
-                $attr->methods->{$method}->( $self, $collection, \%methods );
+                $attr->methods->{$method}->( $self, $collection, $collection_iter_name, \%methods );
             },
         );
 
