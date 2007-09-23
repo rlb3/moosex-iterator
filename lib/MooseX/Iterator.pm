@@ -1,71 +1,36 @@
 package MooseX::Iterator;
 use Moose;
 
-our $VERSION   = '0.01';
+use MooseX::Iterator::Meta::Array;
+
+our $VERSION   = '0.03';
 our $AUTHORITY = 'cpan:RLB';
 
-extends 'Moose::Meta::Attribute';
+has _position => ( is => 'rw', isa => 'Int', default => 0 );
+has collection => ( is => 'ro', isa => 'ArrayRef' );
 
-has provides     => ( is => 'ro', isa => 'HashRef', default => sub { {} } );
-has iterate_over => ( is => 'ro', isa => 'Str', default => '' );
+sub next {
+    my ($self)   = @_;
+    my $position = $self->_position;
+    my $next     = $self->collection->[ $position++ ];
+    $self->_position($position);
+    return $next;
+}
 
-has methods => (
-    is      => 'ro',
-    isa     => 'HashRef',
-    default => sub {
-        {
-              next => sub {
-                my ( $self, $collection, $collection_position_name ) = @_;
-                my $position = $self->$collection_position_name;
-                my $next     = $self->$collection->[ $position++ ];
-                $self->$collection_position_name($position);
-                return $next;
-              },
-              has_next => sub {
-                my ( $self, $collection, $collection_position_name ) = @_;
-                my $position = $self->$collection_position_name;
-                return exists $self->$collection->[ $position++ ];
-              },
-              peek => sub {
-                my ( $self, $collection, $collection_position_name, $method_names ) = @_;
+sub has_next {
+    my ($self) = @_;
+    my $position = $self->_position;
+    return exists $self->collection->[ $position++ ];
+}
 
-                my $has_next = $method_names->{'has_next'};
-
-                if ( $self->$has_next ) {
-                    my $position = $self->$collection_position_name;
-                    return $self->$collection->[ ++$position ];
-                }
-                return;
-              },
-              contents => sub {
-                my ( $self, $collection ) = @_;
-                return $self->$collection;
-              },
-        },
-    },
-);
-
-after 'install_accessors' => sub {
-    my ($attr)                   = @_;
-    my $class                    = $attr->associated_class;
-    my $collection               = $attr->iterate_over;
-    my $collection_position_name = '__' . $collection . '_position';
-
-    $class->add_attribute(
-        $collection_position_name => ( is => 'rw', isa => 'Int', default => 0 ) );
-
-    my %methods = %{ $attr->provides };
-
-    foreach my $method ( keys %{ $attr->provides } ) {
-        $class->add_method(
-            $attr->provides->{$method} => sub {
-                my ($self) = @_;
-                $attr->methods->{$method}->( $self, $collection, $collection_position_name, \%methods );
-            },
-        );
-
+sub peek {
+    my ($self) = @_;
+    if ( $self->has_next ) {
+        my $position = $self->_position;
+        return $self->collection->[ ++$position ];
     }
-};
+    return;
+}
 
 no Moose;
 
