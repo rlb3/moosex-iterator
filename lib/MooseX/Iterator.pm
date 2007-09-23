@@ -46,9 +46,9 @@ has methods => (
 );
 
 after 'install_accessors' => sub {
-    my ($attr)               = @_;
-    my $class                = $attr->associated_class;
-    my $collection           = $attr->iterate_over;
+    my ($attr)                   = @_;
+    my $class                    = $attr->associated_class;
+    my $collection               = $attr->iterate_over;
     my $collection_position_name = '__' . $collection . '_position';
 
     $class->add_attribute(
