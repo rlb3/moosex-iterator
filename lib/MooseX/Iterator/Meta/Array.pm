@@ -32,7 +32,7 @@ after 'install_accessors' => sub {
 
 no Moose;
 
-package Moose::Meta::Attribute::Custom::Iterate;
+package Moose::Meta::Attribute::Custom::Iterable;
 sub register_implementation { 'MooseX::Iterator::Meta::Array' }
 
 1;

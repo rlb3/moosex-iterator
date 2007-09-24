@@ -14,7 +14,7 @@ has numbers => (
 );
 
 has iter => (
-    metaclass    => 'Iterate',
+    metaclass    => 'Iterable',
     iterate_over => 'numbers',
 );
 
