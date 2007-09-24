@@ -22,14 +22,13 @@ sub next {
 sub has_next {
     my ($self) = @_;
     my $position = $self->_position;
-    return exists $self->collection->[ $position++ ];
+    return exists $self->collection->[$self->_position];
 }
 
 sub peek {
     my ($self) = @_;
     if ( $self->has_next ) {
-        my $position = $self->_position;
-        return $self->collection->[ ++$position ];
+        return $self->collection->[ $self->_position + 1];
     }
     return;
 }
