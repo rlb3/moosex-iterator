@@ -5,7 +5,7 @@ use Test::More tests => 17;
 package TestIterator;
 
 use Moose;
-use MooseX::Iterator;
+use MooseX::Iterator::Array;
 
 has numbers => (
     is      => 'ro',

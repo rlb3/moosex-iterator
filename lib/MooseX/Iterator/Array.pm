@@ -1,9 +1,11 @@
-package MooseX::Iterator;
+package MooseX::Iterator::Array;
 use Moose;
 
-use MooseX::Iterator::Meta::Array;
+use MooseX::Iterator::Meta::Iterable;
 
-our $VERSION   = '0.03';
+with 'MooseX::Iterator';
+
+our $VERSION   = '0.04';
 our $AUTHORITY = 'cpan:RLB';
 
 has _position => ( is => 'rw', isa => 'Int', default => 0 );
