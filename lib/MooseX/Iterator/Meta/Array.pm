@@ -21,11 +21,11 @@ after 'install_accessors' => sub {
 
     my $collection_name = $self->iterate_over;
     my $iterate_name    = $self->iterate_name;
-    my $collection      = $class->construct_instance->$collection_name;
 
     $class->add_method(
         $iterate_name => sub {
-            MooseX::Iterator->new( collection => $collection, );
+            my ($self) = @_;
+            MooseX::Iterator->new( collection => $self->$collection_name, );
         }
     );
 };
