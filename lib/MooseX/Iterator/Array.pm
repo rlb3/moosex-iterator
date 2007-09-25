@@ -3,10 +3,10 @@ use Moose;
 
 use MooseX::Iterator::Meta::Iterable;
 
-with 'MooseX::Iterator::Role';
-
-our $VERSION   = '0.04';
+our $VERSION   = '0.05';
 our $AUTHORITY = 'cpan:RLB';
+
+with 'MooseX::Iterator::Role';
 
 has _position => ( is => 'rw', isa => 'Int', default => 0 );
 has collection => ( is => 'ro', isa => 'ArrayRef' );
