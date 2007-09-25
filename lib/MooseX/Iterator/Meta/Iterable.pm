@@ -38,6 +38,9 @@ after 'install_accessors' => sub {
             if ( $type eq 'ArrayRef' ) {
                 MooseX::Iterator::Array->new( collection => $self->$collection_name );
             }
+            elsif ( $type eq 'HashRef') {
+                MooseX::Iterator::Hash->new( collection => $self->$collection_name );
+            }
         }
     );
 };
