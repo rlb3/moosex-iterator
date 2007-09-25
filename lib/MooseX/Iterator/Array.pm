@@ -9,12 +9,12 @@ our $AUTHORITY = 'cpan:RLB';
 with 'MooseX::Iterator::Role';
 
 has _position => ( is => 'rw', isa => 'Int', default => 0 );
-has collection => ( is => 'ro', isa => 'ArrayRef' );
+has '+_collection' => ( isa => 'ArrayRef' );
 
 sub next {
     my ($self)   = @_;
     my $position = $self->_position;
-    my $next     = $self->collection->[ $position++ ];
+    my $next     = $self->_collection->[ $position++ ];
     $self->_position($position);
     return $next;
 }
@@ -22,13 +22,13 @@ sub next {
 sub has_next {
     my ($self) = @_;
     my $position = $self->_position;
-    return exists $self->collection->[$self->_position];
+    return exists $self->_collection->[$self->_position];
 }
 
 sub peek {
     my ($self) = @_;
     if ( $self->has_next ) {
-        return $self->collection->[ $self->_position + 1];
+        return $self->_collection->[ $self->_position + 1];
     }
     return;
 }

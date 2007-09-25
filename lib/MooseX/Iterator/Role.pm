@@ -10,4 +10,6 @@ requires $_ for qw{
     peek
 };
 
+has '_collection' => (is => 'rw', init_arg => 'collection');
+
 1;
