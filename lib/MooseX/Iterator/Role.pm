@@ -1,4 +1,4 @@
-package MooseX::Iterator;
+package MooseX::Iterator::Role;
 use Moose::Role;
 
 our $VERSION   = '0.04';
