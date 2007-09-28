@@ -1,6 +1,6 @@
 #!perl
 
-use Test::More (no_plan);
+use Test::More (tests => 4);
 
 package TestIterator;
 
@@ -25,12 +25,12 @@ use Data::Dumper;
 
 my $test = TestIterator->new;
 
-my $it= $test->iter;
+my $it = $test->iter;
+
+ok $it->does('MooseX::Iterator::Role'), 'does MooseX::Iterator::Role';
 
 while ( $it->has_next ) {
     my $next = $it->next;
 
     is ref $next, 'HASH';
-    diag Dumper $next;
-
 }

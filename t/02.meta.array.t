@@ -1,6 +1,6 @@
 #!perl
 
-use Test::More tests => 17;
+use Test::More (no_plan);
 
 package TestIterator;
 

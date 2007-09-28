@@ -5,7 +5,7 @@ use Test::More tests => 17;
 use Moose;
 use MooseX::Iterator;
 
-my $test = MooseX::Iterator::Array->new(collection => [1,2,3,4,5,6]);
+my $test = MooseX::Iterator::Array->new( collection => [ 1, 2, 3, 4, 5, 6 ] );
 
 my $count = 1;
 while ( $test->has_next ) {

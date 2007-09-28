@@ -7,7 +7,8 @@ our $VERSION   = '0.05';
 our $AUTHORITY = 'cpan:RLB';
 
 extends 'MooseX::Iterator::Array';
-with 'MooseX::Iterator::Role';
+
+has '_collection' => ( is => 'rw', isa => 'HashRef | ArrayRef', init_arg => 'collection' );
 
 sub BUILD {
     my ( $self, $args ) = @_;
