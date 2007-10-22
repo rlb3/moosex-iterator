@@ -30,20 +30,22 @@ after 'install_accessors' => sub {
 
     my $type       = $class->get_attribute($collection_name)->type_constraint->name;
     my $collection = $class->get_attribute($collection_name)->get_read_method;
+    
+    my $iterator_class_name;
+    if ($type eq 'ArrayRef') {
+        $iterator_class_name = 'MooseX::Iterator::Array';
+    }
+    elsif ($type eq 'HashRef' ) {
+        $iterator_class_name = 'MooseX::Iterator::Hash';
+    }
+    else {
+        confess 'The type must be either ArrayRef or HashRef';
+    }
 
     $class->add_method(
         $iterate_name => sub {
             my ($self) = @_;
-
-            if ( $type eq 'ArrayRef' ) {
-                MooseX::Iterator::Array->new( collection => $self->$collection );
-            }
-            elsif ( $type eq 'HashRef' ) {
-                MooseX::Iterator::Hash->new( collection => $self->$collection );
-            }
-            else {
-                confess 'The type must be either ArrayRef or HashRef';
-            }
+            $iterator_class_name->new( collection => $self->$collection );
         }
     );
 };
