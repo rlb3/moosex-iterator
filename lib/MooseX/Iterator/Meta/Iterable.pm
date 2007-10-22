@@ -4,7 +4,7 @@ use MooseX::Iterator::Array;
 
 use Carp 'confess';
 
-our $VERSION   = '0.05';
+our $VERSION   = '0.06';
 our $AUTHORITY = 'cpan:RLB';
 
 extends 'Moose::Meta::Attribute';

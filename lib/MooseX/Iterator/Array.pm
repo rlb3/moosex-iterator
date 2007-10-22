@@ -3,7 +3,7 @@ use Moose;
 
 use MooseX::Iterator::Meta::Iterable;
 
-our $VERSION   = '0.05';
+our $VERSION   = '0.06';
 our $AUTHORITY = 'cpan:RLB';
 
 with 'MooseX::Iterator::Role';
