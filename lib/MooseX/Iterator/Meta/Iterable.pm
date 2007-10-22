@@ -30,12 +30,12 @@ after 'install_accessors' => sub {
 
     my $type       = $class->get_attribute($collection_name)->type_constraint->name;
     my $collection = $class->get_attribute($collection_name)->get_read_method;
-    
+
     my $iterator_class_name;
-    if ($type eq 'ArrayRef') {
+    if ( $type eq 'ArrayRef' ) {
         $iterator_class_name = 'MooseX::Iterator::Array';
     }
-    elsif ($type eq 'HashRef' ) {
+    elsif ( $type eq 'HashRef' ) {
         $iterator_class_name = 'MooseX::Iterator::Hash';
     }
     else {
