@@ -28,7 +28,7 @@ Access the Iterator directly:
 
     my $count = 1;
     while ( $iter->has_next ) {
-        print $test->next;
+        print $iter->next;
     }
     
 Or use the meta class:
