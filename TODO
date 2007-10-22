@@ -1,0 +1,9 @@
+mst: rlb3_work: you're pulling the attribute TC every time the method's called
+mst: rlb3_work: that's really inefficient
+mst: rlb3_work: why not just generate the method?
+
+stevan: rlb3_work: there is a $attr->get_reader_method now which returns a subref which can be used as a reader even if there is no official reader method
+
+mst: also
+mst: $self->$collection_name is a bug
+mst: you should read the attribute for what its reader is called.

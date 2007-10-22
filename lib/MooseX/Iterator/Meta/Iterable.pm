@@ -41,6 +41,9 @@ after 'install_accessors' => sub {
             elsif ( $type eq 'HashRef') {
                 MooseX::Iterator::Hash->new( collection => $self->$collection_name );
             }
+            else {
+                confess 'The type must be either ArrayRef or HashRef';
+            }
         }
     );
 };
