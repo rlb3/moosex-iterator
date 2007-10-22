@@ -93,6 +93,8 @@ The peek method returns the next item without moving the state of the iterator f
 
 Robert Boone E<lt>rlb@cpan.orgE<gt>
 
+And thank you to Steven Little (steven) and Matt Trout (mst) for the help and advice they gave.
+
 =head1 COPYRIGHT AND LICENSE
 
 This library is free software; you can redistribute it and/or modify
