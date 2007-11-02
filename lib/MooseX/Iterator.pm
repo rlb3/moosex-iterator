@@ -1,6 +1,6 @@
 package MooseX::Iterator;
 
-our $VERSION   = '0.06';
+our $VERSION   = '0.07';
 our $AUTHORITY = 'cpan:RLB';
 
 use MooseX::Iterator::Array;
