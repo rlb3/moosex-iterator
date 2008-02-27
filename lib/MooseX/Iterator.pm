@@ -58,7 +58,7 @@ Or use the meta class:
 
     my $iter = $test->iter;
 
-    while ( $it->has_next ) {
+    while ( $iter->has_next ) {
         my $next = $iter->next;
         print $next->{'key'}   . "\n";
         print $next->{'value'} . "\n";
