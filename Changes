@@ -1,0 +1,5 @@
+Revision history for MooseX-Iterator
+
+0.08 May 4 2008
+    - Remove ._Role.pm from distribution
+    
