@@ -4,7 +4,7 @@ use MooseX::Iterator::Array;
 
 use Carp 'confess';
 
-our $VERSION   = '0.08';
+our $VERSION   = '0.09';
 our $AUTHORITY = 'cpan:RLB';
 
 extends 'Moose::Meta::Attribute';
@@ -31,16 +31,9 @@ after 'install_accessors' => sub {
     my $type       = $class->get_attribute($collection_name)->type_constraint->name;
     my $collection = $class->get_attribute($collection_name)->get_read_method;
 
-    my $iterator_class_name;
-    if ( $type eq 'ArrayRef' ) {
-        $iterator_class_name = 'MooseX::Iterator::Array';
-    }
-    elsif ( $type eq 'HashRef' ) {
-        $iterator_class_name = 'MooseX::Iterator::Hash';
-    }
-    else {
-        confess 'The type must be either ArrayRef or HashRef';
-    }
+    my $iterator_class_name = $self->_calculate_iterator_class_for_type($type);
+
+    confess  "Invalid iterator class given" if !$iterator_class_name;
 
     $class->add_method(
         $iterate_name => sub {
@@ -49,6 +42,17 @@ after 'install_accessors' => sub {
         }
     );
 };
+
+sub _calculate_iterator_class_for_type {
+    my ( $self, $type ) = @_;
+
+    if ( $type eq 'ArrayRef' ) {
+        return 'MooseX::Iterator::Array';
+    }
+    elsif ( $type eq 'HashRef' ) {
+        return 'MooseX::Iterator::Hash';
+    }
+}
 
 no Moose;
 
