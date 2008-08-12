@@ -33,7 +33,8 @@ after 'install_accessors' => sub {
 
     my $iterator_class_name = $self->_calculate_iterator_class_for_type($type);
 
-    confess  "Invalid iterator class given" if !$iterator_class_name;
+    confess "Invalid iterator class given" if !$iterator_class_name;
+    confess "$iterator_class_name does not implement MooseX::Iterator::Role" if !$iterator_class_name->does('MooseX::Iterator::Role');
 
     $class->add_method(
         $iterate_name => sub {
