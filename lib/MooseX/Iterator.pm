@@ -89,6 +89,13 @@ The peek method returns the next item without moving the state of the iterator f
 
 =back
 
+=item Subclassing MooseX::Iterator::Meta::Iterable
+
+When subclassing MooseX::Iterator::Meta::Iterable for your own iterators override MooseX::Iterator::Meta::Iterable::_calculate_iterator_class_for_type to
+returns the name of the class that iterates over your new collection type. The class must implement the MooseX::Iterator::Role role.
+
+=back
+
 =head1 AUTHOR
 
 Robert Boone E<lt>rlb@cpan.orgE<gt>
@@ -98,7 +105,7 @@ And thank you to Steven Little (steven) and Matt Trout (mst) for the help and ad
 =head1 Code Repository
 
  Git - http://github.com/rlb3/moosex-iterator/tree/master
- Svn - http://code2.0beta.co.uk/moose/svn/MooseX-Iterator/trunk/
+ SVN - http://code2.0beta.co.uk/moose/svn/MooseX-Iterator/trunk/
 
 =head1 COPYRIGHT AND LICENSE
 
