@@ -33,6 +33,11 @@ sub peek {
     return;
 }
 
+sub reset {
+    my ($self) = @_;
+    $self->_position(0);
+}
+
 no Moose;
 
 1;
