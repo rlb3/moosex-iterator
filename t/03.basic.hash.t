@@ -2,8 +2,6 @@
 
 use Test::More (tests => 4);
 
-use Data::Dumper;
-use Moose;
 use MooseX::Iterator;
 
 my $test =

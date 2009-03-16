@@ -1,5 +1,8 @@
 Revision history for MooseX-Iterator
 
+0.10 March 16 1009
+    - Support for resetting iterator - Johannes Plunien
+
 0.08 May 4 2008
     - Remove ._Role.pm from distribution
     
