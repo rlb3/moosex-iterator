@@ -8,7 +8,7 @@ our $AUTHORITY = 'cpan:RLB';
 
 with 'MooseX::Iterator::Role';
 
-has _position => ( is => 'rw', isa => 'Int', default => 0 );
+has '_position' => ( is => 'rw', isa => 'Int', default => 0 );
 has '_collection' => ( is => 'rw', isa => 'ArrayRef', init_arg => 'collection' );
 
 sub next {
@@ -28,7 +28,7 @@ sub has_next {
 sub peek {
     my ($self) = @_;
     if ( $self->has_next ) {
-        return $self->_collection->[ $self->_position + 1 ];
+        return $self->_collection->[ $self->_position ];
     }
     return;
 }

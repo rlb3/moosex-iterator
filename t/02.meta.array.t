@@ -28,8 +28,8 @@ my $it = $test->iter;
 
 my $count = 5;
 while ( $it->has_next ) {
-    my $peek = $it->peek;
     my $next = $it->next;
+    my $peek = $it->peek;
 
     is $next, $count, 'Current position value ' . $count;
 

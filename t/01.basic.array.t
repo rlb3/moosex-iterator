@@ -8,8 +8,8 @@ my $test = MooseX::Iterator::Array->new( collection => [ 1, 2, 3, 4, 5, 6 ] );
 
 my $count = 1;
 while ( $test->has_next ) {
-    my $peek = $test->peek;
     my $next = $test->next;
+    my $peek = $test->peek;
 
     is $next, $count, 'Current position value ' . $count;
 
